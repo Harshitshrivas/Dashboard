@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicPulse Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    <link rel="stylesheet" href="analysis.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-chart-line logo-icon"></i>
+                <span>CivicPulse</span>
+            </div>
+        </div>
+        
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="nav-container">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search...">
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li>
+                        <a href="index.html" class="active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analysis.html">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="report.html">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Reports</span>
+                            <span class="notification-badge">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="user-avatar">A</div>
+                <div class="user-info">
+                    <div class="user-name">Admin Name</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                
+                <div class="user-dropdown">
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                        <span class="notification-badge">5</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Analytics Overview</h1>
+            <select class="time-filter">
+                <option>Last 30 Days</option>
+                <option>Last 7 Days</option>
+                <option>Last 90 Days</option>
+                <option>Last Year</option>
+            </select>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Reports</div>
+                <div class="metric-value">1,204</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Avg. Resolution Time</div>
+                <div class="metric-value">2.5 Days</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Pending Reports</div>
+                <div class="metric-value">187</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <!-- Enhanced Reports by Category Section -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Reports by Category</h3>
+                    <div class="chart-actions">
+                        <button class="chart-action-btn" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="chart-action-btn" title="Filter">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="category-chart">
+                    <div class="category-item" data-category="roads">
+                        <div class="category-icon" style="background-color: #2196f3;">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Roads & Infrastructure</div>
+                            <div class="category-stats">
+                                <span>320 reports</span>
+                                <div class="category-bar-container">
+                                    <div class="category-bar" style="width: 85%; background-color: #2196f3;"></div>
+                                </div>
+                                <div class="category-value">85%</div>
+                                <div class="category-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 12%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item" data-category="garbage">
+                        <div class="category-icon" style="background-color: #26a69a;">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Garbage & Sanitation</div>
+                            <div class="category-stats">
+                                <span>250 reports</span>
+                                <div class="category-bar-container">
+                                    <div class="category-bar" style="width: 65%; background-color: #26a69a;"></div>
+                                </div>
+                                <div class="category-value">65%</div>
+                                <div class="category-trend trend-down">
+                                    <i class="fas fa-arrow-down"></i> 5%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item" data-category="water">
+                        <div class="category-icon" style="background-color: #66bb6a;">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Water Supply</div>
+                            <div class="category-stats">
+                                <span>185 reports</span>
+                                <div class="category-bar-container">
+                                    <div class="category-bar" style="width: 48%; background-color: #66bb6a;"></div>
+                                </div>
+                                <div class="category-value">48%</div>
+                                <div class="category-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 8%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item" data-category="electricity">
+                        <div class="category-icon" style="background-color: #ef5350;">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Electricity Issues</div>
+                            <div class="category-stats">
+                                <span>235 reports</span>
+                                <div class="category-bar-container">
+                                    <div class="category-bar" style="width: 60%; background-color: #ef5350;"></div>
+                                </div>
+                                <div class="category-value">60%</div>
+                                <div class="category-trend trend-neutral">
+                                    <i class="fas fa-minus"></i> 2%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item" data-category="parks">
+                        <div class="category-icon" style="background-color: #ab47bc;">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">Parks & Recreation</div>
+                            <div class="category-stats">
+                                <span>120 reports</span>
+                                <div class="category-bar-container">
+                                    <div class="category-bar" style="width: 32%; background-color: #ab47bc;"></div>
+                                </div>
+                                <div class="category-value">32%</div>
+                                <div class="category-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 15%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-info">
+                    <span class="progress-label">Resolution Rate</span>
+                    <span class="progress-value">78%</span>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">Issue Hotspots</h3>
+                <div class="map-container" id="issueMap">
+                    <!-- Leaflet map will be rendered here -->
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ff5722;"></div>
+                        <span>High Priority</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ff9800;"></div>
+                        <span>Medium Priority</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ffc107;"></div>
+                        <span>Low Priority</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    
+    <script src="analysis.js"></script>
+</body>
+</html>

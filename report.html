@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Details & Actions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="report.css">
+</head>
+<body>
+    <div class="report-container">
+        <div class="header">
+            <h1><i class="fas fa-file-alt"></i> Report <span class="report-id">#12345</span> – Details & Actions</h1>
+            <!-- Cross button -->
+            <button class="close-btn" onclick="showConfirmationModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="content">
+            <div class="map-section">
+                <div class="map-label">
+                    <i class="fas fa-map-marker-alt"></i> LIVE MAP LOCATION
+                </div>
+                <div class="map-container">
+                    <div id="map">
+                        <div class="loading-map">
+                            <i class="fas fa-spinner loading-spinner"></i>
+                            Loading map...
+                        </div>
+                    </div>
+                    <div class="map-overlay">
+                        <div class="location-text">
+                            <i class="fas fa-location-dot"></i> Ranchi, NH-33 near sector 5
+                        </div>
+                        <div class="map-actions">
+                            <button class="map-action-btn" title="View larger map" onclick="openFullscreenMap()">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="map-action-btn" title="Get directions" onclick="getDirections()">
+                                <i class="fas fa-directions"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-label">
+                        <i class="fas fa-tasks"></i> Status
+                    </div>
+                    <div class="detail-value">
+                        <select class="form-select status-acknowledged" id="statusSelect" onchange="updateStatus()">
+                            <option value="acknowledged">Acknowledged</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="pending">Pending</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <div class="detail-actions">
+                            <button class="action-btn" title="Status history">
+                                <i class="fas fa-history"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">
+                        <i class="fas fa-building"></i> Assign to Department
+                    </div>
+                    <div class="detail-value">
+                        <select class="form-select" id="departmentSelect" onchange="updateDepartment()">
+                            <option value="public-works">Public Works</option>
+                            <option value="transportation">Transportation</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="emergery">Emergency Services</option>
+                        </select>
+                        <div class="detail-actions">
+                            <button class="action-btn" title="Department info">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">
+                        <i class="fas fa-exclamation-circle"></i> Priority
+                    </div>
+                    <div class="detail-value">
+                        <select class="form-select priority-medium" id="prioritySelect" onchange="updatePriority()">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                        <div class="detail-actions">
+                            <button class="action-btn" title="Priority info">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">
+                        <i class="fas fa-calendar"></i> Deadline
+                    </div>
+                    <div class="detail-value">
+                        <span id="deadlineText">Sep. 5, 2025, 12:30 AM</span>
+                        <div class="detail-actions">
+                            <button class="action-btn" title="Set reminder">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="description-section">
+                <div class="section-title">
+                    <i class="fas fa-align-left"></i> Description
+                </div>
+                <div class="description-text">
+                    Large pothole causing traffic jam near bus stop. The pothole is approximately 2 feet wide and 6 inches deep, located in the middle of the lane. It has been causing traffic delays during rush hours.
+                </div>
+                
+                <div class="reported-by">
+                    <div>
+                        <strong>Reported by:</strong>
+                        <div class="user-badge">
+                            <div class="user-avatar">U</div>
+                            <span>User123 (user@example.com)</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Reported on:</strong> Sep. 5, 2025, 12:30 AM
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Photo Section -->
+            <div class="user-photo-section">
+                <div class="section-title">
+                    <i class="fas fa-camera"></i> Uploaded Photo
+                </div>
+                <div class="user-photo-container">
+                    <div class="user-photo-item" onclick="openPhotoModal('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrC5W7x0Gf-cs2pSSU26YH-FBfF4vIGuntxidfHEQRgecHB0Nt5jyYb95W17Xoc9IZ-UA&usqp=CAU')">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrC5W7x0Gf-cs2pSSU26YH-FBfF4vIGuntxidfHEQRgecHB0Nt5jyYb95W17Xoc9IZ-UA&usqp=CAU" alt="Pothole image">
+                        <div class="user-photo-overlay">Click to enlarge</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notes-section">
+                <label class="section-title">
+                    <i class="fas fa-sticky-note"></i> Internal Notes
+                </label>
+                <textarea 
+                    class="notes-textarea" 
+                    id="internalNotes"
+                    placeholder="Add note for administration..."
+                    oninput="saveNotes()"
+                ></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button secondary" onclick="showConfirmationModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="action-button primary" onclick="updateReportStatus()">
+                    <i class="fas fa-check"></i> Update Status
+                </button>
+            </div>
+
+            <div class="history-section">
+                <div class="section-title">
+                    <i class="fas fa-history"></i> History
+                </div>
+                <div class="history-item">
+                    <div class="history-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="history-content">
+                        <div class="history-action">Report created</div>
+                        <div class="history-details">By User123</div>
+                        <div class="history-time">Sep. 5, 2025, 12:30 AM</div>
+                    </div>
+                </div>
+                <div class="history-item">
+                    <div class="history-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="history-content">
+                        <div class="history-action">Status changed to "Acknowledged"</div>
+                        <div class="history-details">By Admin User</div>
+                        <div class="history-time">Sep. 5, 2025, 9:15 AM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to close the report?</p>
+            <button onclick="closeReport()">Yes</button>
+            <button onclick="hideConfirmationModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal">
+        <button class="photo-modal-close" onclick="closePhotoModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="photo-modal-content">
+            <img id="modalImage" src="" alt="Enlarged view">
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="report.js"></script>
+</body>
+</html>
