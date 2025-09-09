@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    
+    <div class="overlay" id="overlay"></div>
+
+    <div class="modal" id="issueModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Issue Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-assign" id="modalAssignBtn">Assign</button>
+                <button class="action-btn btn-view" id="modalCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <a href="dashboard.html" class="sidebar-item active">
+            <span>📊</span>
+            <span>Dashboard</span>
+        </a>
+        <a href="issues.html" class="sidebar-item">
+            <span>⚠️</span>
+            <span>Issues</span>
+        </a>
+        <a href="users.html" class="sidebar-item">
+            <span>👥</span>
+            <span>Users</span>
+        </a>
+        <a href="report.html" class="sidebar-item">
+            <span>📋</span>
+            <span>Reports</span>
+        </a>
+        <a href="settings.html" class="sidebar-item">
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+        <a href="analysis.html" class="sidebar-item">
+            <span>📈</span>
+            <span>Analytics</span>
+        </a> 
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <button class="menu-toggle">☰</button>
+            <h1>Dashboard</h1>
+            <div class="header-right">
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" class="search-bar" placeholder="Search">
+                </div>
+                <div class="profile-icon">👤</div>
+            </div>
+        </div>
+
+   
+        <div class="content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon total">📄</div>
+                    <div class="stat-value">350</div>
+                    <div class="stat-label">Total Issues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">⏳</div>
+                    <div class="stat-value">125</div>
+                    <div class="stat-label">Pending Issues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon resolved">✅</div>
+                    <div class="stat-value">220</div>
+                    <div class="stat-label">Resolved Issues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon fake">🏳️</div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Fake Reports</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Issues by Category</div>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Roads</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Garbage</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Water</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: 40%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Electricity</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Live Issue Locations</div>
+                    <div class="map-container">
+                        <div id="issueMap"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">Latest Issues</div>
+                    <div class="table-actions">
+                        <button class="filter-btn">Filter</button>
+                        <button class="filter-btn">Sort</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Reported By</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issuesTable">
+                        <tr data-id="1024" data-category="Road" data-location="Ranchi" data-reportedby="Amitabh" data-status="Pending" data-description="Large pothole on Main Road near Gandhi Chowk causing traffic issues and vehicle damage." data-date="2023-10-15" data-image="https://images.unsplash.com/photo-1563456167087-6d70e4bf2d2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3">
+                            <td>1024</td>
+                            <td>Road</td>
+                            <td>Ranchi</td>
+                            <td>Amitabh</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td><button class="action-btn btn-assign">Assign</button></td>
+                        </tr>
+                        <tr data-id="1023" data-category="Water" data-location="Dhanbad" data-reportedby="Sumita" data-status="Resolved" data-description="Water leakage from main pipeline in Sector 4 area for past 3 days." data-date="2023-10-14" data-image="https://images.unsplash.com/photo-1590622783539-bae63fec9a5e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3">
+                            <td>1023</td>
+                            <td>Water</td>
+                            <td>Dhanbad</td>
+                            <td>Sumita</td>
+                            <td><span class="status-badge status-resolved">Resolved</span></td>
+                            <td><button class="action-btn btn-view">View</button></td>
+                        </tr>
+                        <tr data-id="1022" data-category="Garbage" data-location="Jamshedpur" data-reportedby="Rajesh" data-status="Reeling" data-description="Garbage accumulation near Sakchi market causing unhygienic conditions and foul smell." data-date="2023-10-13" data-image="https://images.unsplash.com/photo-1621259045276-b9ce6ddc931d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3">
+                            <td>1022</td>
+                            <td>Garbage</td>
+                            <td>Jamshedpur</td>
+                            <td>Rajesh</td>
+                            <td><span class="status-badge status-reeling">Reeling</span></td>
+                            <td><button class="action-btn btn-view">View</button></td>
+                        </tr>
+                        <tr data-id="1021" data-category="Electricity" data-location="Deoghar" data-reportedby="Priya" data-status="Resolved" data-description="Power outage in Baidyanath Nagar area for more than 8 hours daily." data-date="2023-10-12" data-image="https://images.unsplash.com/photo-1621259182556-2c50346f2d91?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3">
+                            <td>1021</td>
+                            <td>Electricity</td>
+                            <td>Deoghar</td>
+                            <td>Priya</td>
+                            <td><span class="status-badge status-resolved">Resolved</span></td>
+                            <td><button class="action-btn btn-view">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
