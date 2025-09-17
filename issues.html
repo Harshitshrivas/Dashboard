@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicPulse - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="issues.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-chart-line logo-icon"></i>
+                <span>CivicPulse</span>
+            </div>
+        </div>
+        
+        <nav class="header-nav">
+            <a href="index.html" class="header-nav-link active">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </a>
+            <a href="analysis.html" class="header-nav-link">
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+            </a>
+            <a href="report.html" class="header-nav-link">
+                <i class="fas fa-chart-pie"></i> <span>Reports</span>
+            </a>
+        </nav>
+        
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <button class="refresh-btn" onclick="refreshData()">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="main-content">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Reports</div>
+                        <div class="metric-value">1,204</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg. Resolution Time</div>
+                        <div class="metric-value">2.5 Days</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Pending Reports</div>
+                        <div class="metric-value">187</div>
+                    </div>
+                </div>
+
+                <div class="filters-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Category</label>
+                            <select class="filter-select" id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="roads">Roads & Infrastructure</option>
+                                <option value="garbage">Garbage & Sanitation</option>
+                                <option value="water">Water Supply</option>
+                                <option value="electricity">Electricity Issues</option>
+                                <option value="parks">Parks & Recreation</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Location</label>
+                            <select class="filter-select" id="locationFilter">
+                                <option value="">All Locations</option>
+                                <option value="ward1">Ward 1</option>
+                                <option value="ward2">Ward 2</option>
+                                <option value="ward3">Ward 3</option>
+                                <option value="ward4">Ward 4</option>
+                                <option value="ward5">Ward 5</option>
+                                <option value="ward6">Ward 6</option>
+                                <option value="ward7">Ward 7</option>
+                                <option value="ward8">Ward 8</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Status</label>
+                            <select class="filter-select" id="statusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="open">Open</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">Priority</label>
+                            <select class="filter-select" id="priorityFilter">
+                                <option value="">All Priorities</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+
+                        <div class="search-group">
+                            <label class="filter-label">Search Issues</label>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" id="searchInput" placeholder="Enter keywords...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn btn-secondary" onclick="applyFilters()">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <button class="action-btn btn-secondary" onclick="clearFilters()">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+
+                <div class="issues-table-container">
+                    <table class="issues-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="issuesTableBody">
+                            <tr data-category="street lights" data-location="ward5" data-priority="high" data-status="open">
+                                <td>#1</td>
+                                <td>Streetlight not working</td>
+                                <td>Street Lights</td>
+                                <td>Ward 5</td>
+                                <td class="priority-high">High</td>
+                                <td><span class="status-badge status-open">Open</span></td>
+                                <td>Electricity Issues</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(1)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="garbage" data-location="ward3" data-priority="medium" data-status="in-progress">
+                                <td>#2</td>
+                                <td>Garbage Collection Delay</td>
+                                <td>Garbage</td>
+                                <td>Ward 3</td>
+                                <td class="priority-medium">Medium</td>
+                                <td><span class="status-badge status-in-progress">In Progress</span></td>
+                                <td>Garbage & Sanitation</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(2)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="roads" data-location="ward2" data-priority="high" data-status="open">
+                                <td>#3</td>
+                                <td>Pothole on Main Road</td>
+                                <td>Roads</td>
+                                <td>Ward 2</td>
+                                <td class="priority-high">High</td>
+                                <td><span class="status-badge status-open">Open</span></td>
+                                <td>Roads & Infrastructure</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(3)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="water supply" data-location="ward4" data-priority="high" data-status="in-progress">
+                                <td>#4</td>
+                                <td>Water Pipeline Leakage</td>
+                                <td>Water Supply</td>
+                                <td>Ward 4</td>
+                                <td class="priority-high">High</td>
+                                <td><span class="status-badge status-in-progress">In Progress</span></td>
+                                <td>Water Supply</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(4)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="parks" data-location="ward1" data-priority="low" data-status="resolved">
+                                <td>#5</td>
+                                <td>Park Bench Broken</td>
+                                <td>Parks</td>
+                                <td>Ward 1</td>
+                                <td class="priority-low">Low</td>
+                                <td><span class="status-badge status-resolved">Resolved</span></td>
+                                <td>Parks & Recreation</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(5)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="roads" data-location="ward6" data-priority="medium" data-status="open">
+                                <td>#6</td>
+                                <td>Road Repair Needed</td>
+                                <td>Roads</td>
+                                <td>Ward 6</td>
+                                <td class="priority-medium">Medium</td>
+                                <td><span class="status-badge status-open">Open</span></td>
+                                <td>Roads & Infrastructure</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(6)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="electricity" data-location="ward7" data-priority="high" data-status="in-progress">
+                                <td>#7</td>
+                                <td>Power Outage Reported</td>
+                                <td>Electricity</td>
+                                <td>Ward 7</td>
+                                <td class="priority-high">High</td>
+                                <td><span class="status-badge status-in-progress">In Progress</span></td>
+                                <td>Electricity Dept</td>
+                                <td>
+                                    <button class="action-btn btn-small btn-primary" onclick="viewDetails(7)">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn">&laquo; Previous</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">Next &raquo;</button>
+                </div>
+            </div>
+
+            <div class="communication-section">
+                <div class="section-header">
+                    <h3 class="section-title">Team Communication</h3>
+                    <button class="action-btn btn-secondary" onclick="refreshMessages()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="message-list" id="messageList">
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span class="message-sender">Roads Department</span>
+                            <span class="message-time">2 hours ago</span>
+                        </div>
+                        <div class="message-content">
+                            The pothole on Main Street has been assessed. Repair scheduled for tomorrow.
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span class="message-sender">Sanitation Team</span>
+                            <span class="message-time">5 hours ago</span>
+                        </div>
+                        <div class="message-content">
+                            The overflowing trash bin in City Park has been cleared.
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span class="message-sender">Water Department</span>
+                            <span class="message-time">1 day ago</span>
+                        </div>
+                        <div class="message-content">
+                            The water leak on 5th Ave has been fixed. Area cleaned up.
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span class="message-sender">Admin</span>
+                            <span class="message-time">2 days ago</span>
+                        </div>
+                        <div class="message-content">
+                            Team meeting scheduled for Friday at 10 AM to discuss priority issues.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="send-message-form">
+                    <input type="text" class="message-input" id="messageInput" placeholder="Type your message...">
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="issues.js"></script>
+</body>
+</html>
